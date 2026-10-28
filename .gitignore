@@ -1,0 +1,14 @@
+# build output
+build/
+main
+
+# editor/ide
+.idea/
+.vscode/
+*.swp
+*-
+
+# debugging/misc
+core
+core.*
+vgcore.*
