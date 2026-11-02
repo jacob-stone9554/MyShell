@@ -1,8 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-int main(void) {
+int main(int argc, char *argv[]) {
+    char *line = NULL;
+    size_t size = 0;
+    ssize_t nread;
 
-    printf("Hello World!\n");
+    while ((nread = getline(&line, &size, stdin)) != -1) {
+        printf("Retrieved line of length %zd:\n", nread);
+        fwrite(line, nread, 1, stdout);
+    }
 
-    return 0;
+    free(line);
+    exit(EXIT_SUCCESS);
 }
