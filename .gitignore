@@ -1,6 +1,7 @@
 # build output
 build/
 main
+compile_commands.json
 
 # editor/ide
 .idea/
