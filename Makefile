@@ -16,6 +16,14 @@ LDFLAGS := $(SAN)
 
 .PHONY: all run clean
 
+TEST_BIN := test_runner
+
+test: $(TEST_BIN)
+	./$(TEST_BIN)
+
+$(TEST_BIN): tests/test_tokenize.c src/tokenize.c src/tokenize.h
+	$(CC) $(CPPFLAGS) -Isrc $(CFLAGS) tests/test_tokenize.c src/tokenize.c -o $@ $(LDFLAGS)
+
 all: $(TARGET)
 
 $(TARGET): $(OBJS)

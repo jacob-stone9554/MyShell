@@ -13,3 +13,7 @@ compile_commands.json
 core
 core.*
 vgcore.*
+
+test_runner
+*.d
+.cache
