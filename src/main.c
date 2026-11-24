@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "tokenize.h"
 
 int main(void) {
     char *line = NULL;
@@ -11,13 +12,27 @@ int main(void) {
 
     while ((nread = getline(&line, &size, stdin)) != -1) {
         // init token list
-        // read the input
-        // tokenize the input
-        // parse/execute the command
-        // destroy the token list
+        TokenList list;
 
-        printf("Retrieved line of length %zd:\n", nread);
-        fwrite(line, nread, 1, stdout);
+        initTokenList(&list);
+
+        // tokenize the input
+        int result = tokenize(&list, line);
+
+        if(result != 0) {
+            exit(EXIT_FAILURE);
+        }
+
+        // parse/execute the command (print it for now)
+
+        for(size_t i = 0; i < list.size; i++) {
+            printf("[%s]\n", list.tokens[i]);
+        }
+
+        //printf("Retrieved line of length %zd:\n", nread);
+        //fwrite(line, nread, 1, stdout);
+
+        destroyTokenList(&list);
 
         printf("mysh> ");
         fflush(stdout);

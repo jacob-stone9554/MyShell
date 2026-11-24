@@ -1,4 +1,6 @@
 #include "tokenize.h"
+#include <ctype.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -57,20 +59,33 @@ void initTokenList(TokenList* list) {
 // ------------ Implementations ------------
 int tokenize(TokenList* list, const char* line) {
     size_t pos = 0;
-    char* currTok = NULL;
 
     while (line[pos] != '\0') {
-        *currTok = line[pos];
-
-        if (*currTok == ' ') {
-            pos++;
-            continue;
-        }
-        else {
-            addToken(list, currTok);
+        while (isspace((unsigned char)line[pos])) {
+           pos++;
         }
 
-        pos++;
+        if(line[pos] == '\0') {
+            break;
+        }
+
+        size_t start = pos;
+
+        while (!isspace((unsigned char)line[pos]) && line[pos] != '\0') {
+          pos++;
+        }
+
+        char* tok = strndup(line + start, pos - start);
+
+        if(tok == NULL) {
+            return -1;
+        }
+
+        int result = addToken(list, tok);
+
+        if(result != 0){
+            return -1;
+        }
     }
 
     return 0;
@@ -87,6 +102,3 @@ void destroyTokenList(TokenList* list) {
     list->size = 0;
     list->capacity = 0;
 }
-
-
-
